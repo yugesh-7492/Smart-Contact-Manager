@@ -39,7 +39,7 @@
   
   <h1 class="text-center"> Register Here </h1>
   
-  <form  novalidate action="" th:action="@{/do_register}" method="post" th:object="${user}">
+  <form  novalidate action=""  enctype="multipart/form-data"  th:action="@{/do_register}" method="post" th:object="${user}">
   
   <!-- this is input from bootstrap -->
   
@@ -114,6 +114,14 @@
   
   <div class="form-group">
   <textarea  th:text="${user.about}" name="about" th:field="${user.about}" placeholder="Enter Something About Yourself"  rows="6" class="form-control"></textarea>
+  
+  
+  <!-- this is for image -->
+  
+   <div class="custom-file" >
+ <input type="file" name="profileImage"/>
+ 
+ </div>
   
   
   <!-- terms and condition -->

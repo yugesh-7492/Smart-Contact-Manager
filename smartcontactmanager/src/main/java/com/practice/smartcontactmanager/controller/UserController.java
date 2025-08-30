@@ -111,7 +111,7 @@ public class UserController {
 	// processing contact form
 	
 	@PostMapping("/process-contact")
-	public String processContact(@ModelAttribute Contact contact,Principal principal,
+	public String processContact(@ModelAttribute("contact") Contact contact,Principal principal,
 			
 			@RequestParam("profileImage")MultipartFile file,  
 			HttpSession session) {  // <--- for image handling , for sending the image we use http session
@@ -125,7 +125,7 @@ public class UserController {
 	
 		contact.setUser(user); //adding the user in the contact field
 		
-		user.getContact().add(contact);
+		user.getContact().add(contact);  // adding the mapping to user 
 		
 //		this.userRepository.save(user);  we are using this in the down so its not require here 
 		

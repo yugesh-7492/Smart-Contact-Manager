@@ -1,11 +1,18 @@
 package com.practice.smartcontactmanager.controller;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.practice.smartcontactmanager.dao.UserRepository;
 import com.practice.smartcontactmanager.entities.User;
@@ -58,7 +65,7 @@ public class HomeController {
     public String registerUser(@Valid  @ModelAttribute("user") User user, BindingResult result1,
             @RequestParam(value = "agreement", defaultValue = "false") boolean agreement,
             Model model,
-            HttpSession session) {
+            HttpSession session,@RequestParam("profileImage")MultipartFile file) {
 
         try {
             if (!agreement) {
@@ -76,14 +83,34 @@ public class HomeController {
             user.setRole("ROLE_USER");
             user.setEnabled(true);
             
+            
+           /* //image setup 
+            
+            
             user.setImageUrl("default.png");
             
+           */
+            user.setImageUrl(file.getOriginalFilename());
+			
+			File saveDir = new File("static/IMAGE");
+			if (!saveDir.exists()) saveDir.mkdirs();
+			Path path = Paths.get(saveDir.getAbsolutePath(), file.getOriginalFilename());
+
+			Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+			userRepository.save(user);
+			
+			System.out.print("image is uploaded");
             
+            
+            
+            
+         
            
+            //
 
             User result = userRepository.save(user);
 
-            model.addAttribute("user", new User()); // Clear the form
+           // model.addAttribute("user", new User()); // Clear the form
             
             session.setAttribute("message", new Message("Successfully registered!", "alert-success"));
 
@@ -109,6 +136,13 @@ public class HomeController {
     	
 		return "login";
     	
+    	
+    }
+    
+    @GetMapping("/about")
+    public String abouthome(Model model) {
+    	model.addAttribute("message","message");
+    	return "abouthome";
     	
     }
     

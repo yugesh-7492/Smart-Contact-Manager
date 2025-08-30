@@ -1,6 +1,8 @@
 package com.practice.smartcontactmanager.dao;
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +23,10 @@ public interface UserRepository extends JpaRepository <User,Integer>{
 	public User getUserByUserName(@Param("email")String email);
 
 	public void save(Contact contact);
+	
+	
+	  // Search by email
+      List<User> findByEmailContainingIgnoreCase(String email);
 	
 
 	

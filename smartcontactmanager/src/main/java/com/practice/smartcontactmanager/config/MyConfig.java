@@ -50,11 +50,20 @@ public class MyConfig {
                 .requestMatchers("/user/**").hasRole("USER")
                 .requestMatchers("/**").permitAll()
             .and()
+            .formLogin()
+            .loginPage("/signin")
+            .loginProcessingUrl("/dologin")
             
             // sending url 
-           .formLogin().loginPage("/signin")
-          .loginProcessingUrl("/dologin")
-           .defaultSuccessUrl("/user/index")
+              .successHandler((request, response, authentication) -> {
+                var authorities = authentication.getAuthorities();
+
+                if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                    response.sendRedirect("/admin/index");
+                } else {
+                    response.sendRedirect("/user/index");
+                }
+            })
            
            .failureUrl("/login-fail")
             
