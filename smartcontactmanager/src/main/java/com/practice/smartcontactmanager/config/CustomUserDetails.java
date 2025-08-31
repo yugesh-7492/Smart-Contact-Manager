@@ -21,6 +21,10 @@ public class CustomUserDetails implements UserDetails{
 		
 		return List.of(simpleGrantedAuthority);
 	}
+	   
+	 
+
+	   
 
 	public CustomUserDetails(User user) {
 		super();
