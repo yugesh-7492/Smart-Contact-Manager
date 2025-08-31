@@ -36,6 +36,7 @@
               <th scope="col">ID</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +54,15 @@
               <td th:text="${u.id}">101</td>
               <td class="fw-semibold text-dark" th:text="${u.name}">John</td>
               <td class="text-muted" th:text="${u.email}">johndoe@example.com</td>
+              <td>
+                <!-- 🗑️ Delete Button -->
+                <a th:href="@{/admin/delete/{email}(email=${u.email})}" 
+   class="btn btn-sm btn-danger"
+   onclick="return confirm('Are you sure you want to delete this user?');">
+   Delete
+</a>
+
+
             </tr>
           </tbody>
         </table>
